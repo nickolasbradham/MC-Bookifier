@@ -55,9 +55,13 @@ final class Bookifier {
 						if (c == '\n') {
 							++l;
 							lw = 0;
-						} else if ((lw += w) > 114) {
+						} else if ((lw += w) > 114 && c != ' ') {
 							++l;
+							int back = sb.length();
 							lw = w;
+							char tc;
+							while (!Character.isWhitespace(tc = sb.charAt(--back)))
+								lw += HM_WIDTHS.get(tc);
 						}
 						if (l > 13) {
 							pageStrs.add(sb.toString());
@@ -65,19 +69,26 @@ final class Bookifier {
 							l = 0;
 							lw = 0;
 						}
-						if (!(c == '\n' && l == 0))
+						if (l != 0 || c != '\n')
 							sb.append(c);
+						else
+							--l;
 					}
 					pageStrs.add(sb.toString());
 					pages.setText("");
 					l = 0;
 					sb.setLength(0);
-					sb.append("/give @p written_book[written_book_content={author:'").append(authField.getText()).append("',title:'").append(titleField.getText()).append("',pages:['");
+					sb.append("/give @p minecraft:written_book[minecraft:written_book_content={author:'")
+							.append(authField.getText()).append("',title:'").append(titleField.getText())
+							.append("',pages:[");
 					for (String s : pageStrs) {
 						pages.append(String.format("#### Page %3d ####%n%s%n%n", ++l, s));
-						// TODO: Update give
+						sb.append("'[[\"").append(
+								s.replaceAll("'", "\\\\'").replaceAll("\n", "\\\\\\\\n").replaceAll("\"", "\\\\\""))
+								.append("\"]]',");
 					}
-					com.setText("");
+					sb.setLength(sb.length() - 1);
+					com.setText(sb.append("]}]").toString());
 				}
 
 				@Override
