@@ -18,8 +18,18 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+/**
+ * Handles entire program.
+ * 
+ * @author Nickolas S. Bradham
+ */
 final class Bookifier {
 
+	/**
+	 * Handles everything.
+	 * 
+	 * @param args Ignored.
+	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 			JFrame frame = new JFrame("MC Bookifier");
