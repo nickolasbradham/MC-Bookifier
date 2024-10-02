@@ -134,7 +134,9 @@ final class Bookifier {
 			head.add(titleField, gbc);
 			frame.add(head, BorderLayout.PAGE_START);
 			text.setLineWrap(true);
+			text.setWrapStyleWord(true);
 			pages.setLineWrap(true);
+			pages.setWrapStyleWord(true);
 			JScrollPane scroll = new JScrollPane(text), scrollPages = new JScrollPane(pages);
 			scroll.setBorder(new TitledBorder("Book Text"));
 			scrollPages.setBorder(new TitledBorder("Pages"));
