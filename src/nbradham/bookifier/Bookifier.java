@@ -52,27 +52,28 @@ final class Bookifier {
 					byte lw = 0, l = 0;
 					for (char c : text.getText().toCharArray()) {
 						byte w = HM_WIDTHS.get(c);
+						if ((lw += w) > 114 && !Character.isWhitespace(c)) {
+							++l;
+							int back = sb.length();
+							char test;
+							lw = w;
+							while (!Character.isWhitespace(test = sb.charAt(--back)))
+								lw += HM_WIDTHS.get(test);
+						}
+						if (l > 13) {
+							int back = sb.length();
+							while (!Character.isWhitespace(sb.charAt(--back)))
+								;
+							pageStrs.add(sb.substring(0, back));
+							sb.delete(0, back + 1);
+							l = 0;
+							lw += w;
+						}
 						if (c == '\n') {
 							++l;
 							lw = 0;
-						} else if ((lw += w) > 114 && c != ' ') {
-							++l;
-							int back = sb.length();
-							lw = w;
-							char tc;
-							while (!Character.isWhitespace(tc = sb.charAt(--back)))
-								lw += HM_WIDTHS.get(tc);
 						}
-						if (l > 13) {
-							pageStrs.add(sb.toString());
-							sb.setLength(0);
-							l = 0;
-							lw = 0;
-						}
-						if (l != 0 || c != '\n')
-							sb.append(c);
-						else
-							--l;
+						sb.append(c);
 					}
 					pageStrs.add(sb.toString());
 					pages.setText("");
