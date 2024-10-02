@@ -85,7 +85,7 @@ final class Bookifier {
 					for (String s : pageStrs) {
 						pages.append(String.format("#### Page %3d ####%n%s%n%n", ++l, s));
 						sb.append("'[[\"").append(
-								s.replaceAll("'", "\\\\'").replaceAll("\n", "\\\\\\\\n").replaceAll("\"", "\\\\\""))
+								s.replaceAll("'", "\\\\'").replaceAll("\n", "\\\\\\\\n").replaceAll("\"", "\\\\\\\\\""))
 								.append("\"]]',");
 					}
 					sb.setLength(sb.length() - 1);
